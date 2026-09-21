@@ -30,6 +30,8 @@ You have already connected Gitar to a GitHub repository and received at least on
 
 ## Architecture
 
+![Gitar context-aware review architecture showing pull request signals, repository guidance, rules, connected context, and review feedback](screenshots/architecture.png)
+
 Gitar loads several context sources before your configuration adds anything. The PR diff, the full contents of every changed file, the PR title and description and comment history, and CI logs when a pipeline fails all enter the review baseline automatically. Gitar also reads root-level AI instruction files (`AGENTS.md`, `CLAUDE.md`,  and `.cursor/rules/*`) when they exist, and it retrieves learned codebase knowledge from previous repository scans (see [Gitar's documentation](https://docs.gitar.ai/how-gitar-works)). Beyond that baseline, Gitar can explore related files and grep for usages across the repository, and it can spawn an explorer sub-agent when the changed code depends on context outside the diff.
 
 A copy of the code used for this baseline review is available in the [Gitar context ingestion sample](https://github.com/sonar-samples/sample-gitar-context-ingestion). The application is a small Flask service that stores orders in an in-memory dictionary and defines creation, lookup, and cancellation routes in [`app/orders.py`](https://github.com/sonar-samples/sample-gitar-context-ingestion/blob/main/app/orders.py), while [`tests/test_orders.py`](https://github.com/sonar-samples/sample-gitar-context-ingestion/blob/main/tests/test_orders.py) contains a single happy-path test for creating, retrieving, and cancelling an order. In the observed run, the pull request added that feature to a baseline repository with no `.gitar/` directory or root AI instruction files.
